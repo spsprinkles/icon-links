@@ -5,6 +5,7 @@ import { App } from "./app";
 import { Configuration } from "./cfg";
 import { DataSource } from "./ds";
 import { Log } from "./log";
+import { Security } from "./security";
 import Strings, { setContext } from "./strings";
 
 // Styling
@@ -85,8 +86,11 @@ const GlobalVariable = {
                     type: Components.ButtonTypes.OutlinePrimary,
                     onClick: () => {
                         if (installFl) {
-                            // Refresh the page
-                            window.location.reload();
+                            // Show the security modal
+                            new Security(() => {
+                                // Refresh the page
+                                window.location.reload();
+                            });
                         }
 
                         // Disable the button
@@ -110,6 +114,12 @@ const GlobalVariable = {
 
                             // Hide the dialog
                             LoadingDialog.hide();
+
+                            // Show the security modal
+                            new Security(() => {
+                                // Refresh the page
+                                window.location.reload();
+                            });
                         });
                     }
                 });
