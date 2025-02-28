@@ -6,6 +6,7 @@ import { plusSquare } from "gd-sprest-bs/build/icons/svgs/plusSquare";
 import * as jQuery from "jquery";
 import { DataSource, ILinkItem } from "./ds";
 import { Forms } from "./forms";
+import { Security } from "./security";
 import Strings from "./strings";
 
 /**
@@ -14,6 +15,7 @@ import Strings from "./strings";
 export class Datatable {
     private _dashboard: Dashboard = null;
     private _ds: DataSource = null;
+    private _el: HTMLElement;
     private _onUpdate: () => void = null;
 
     // Constructor
@@ -28,27 +30,34 @@ export class Datatable {
 
     // Renders the datatable
     private render() {
-        // Render the modal
-        this.renderModal();
-    }
-
-    // Renders the modal
-    private renderModal() {
-        // See if the dashboard exists
-        if (this._dashboard) { return; }
-
         // Clear the modal
         Modal.clear();
 
         // Set the size
         Modal.setType(Components.ModalTypes.Full);
 
+        // Render the dashboard
+        this.renderDashboard();
+
         // Hide the footer
         Modal.FooterElement.classList.add("d-none");
+    }
+
+    // Renders the dashboard
+    private renderDashboard() {
+        // See if it exists
+        if (this._dashboard) {
+            // Update the modal body
+            Modal.BodyElement.appendChild(this._el);
+            return;
+        }
+
+        // Create the element
+        this._el = document.createElement("div");
 
         // Render the dashboard
         this._dashboard = new Dashboard({
-            el: Modal.BodyElement,
+            el: this._el,
             hideHeader: true,
             useModal: false,
             navigation: {
@@ -76,6 +85,17 @@ export class Datatable {
                     });
                 },
                 itemsEnd: [
+                    {
+                        text: "List Security",
+                        isButton: true,
+                        onClick: () => {
+                            // Show the security modal
+                            new Security(() => {
+                                // Refresh the page
+                                window.location.reload();
+                            });
+                        }
+                    },
                     {
                         text: "Add a new icon link",
                         onRender: (el, item) => {
@@ -237,10 +257,16 @@ export class Datatable {
                 ]
             }
         });
+
+        // Update the modal body
+        Modal.BodyElement.appendChild(this._el);
     }
 
     // Shows the datatable
     show() {
+        // Render the datatable
+        this.render();
+
         // Show the datatable
         Modal.show();
     }
