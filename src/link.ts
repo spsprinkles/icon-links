@@ -1,6 +1,9 @@
 import { Components } from "gd-sprest-bs";
 import { ILinkItem } from "./ds";
 
+// Blank Icon
+const DefaultIcon = `<svg width="16" height="16" fill="none" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><circle cx="5" cy="5" r="2" fill="none" /></svg>`;
+
 /**
  * Link
  */
@@ -15,21 +18,25 @@ export class Link {
     private generateElement(link: ILinkItem, layout?: string) {
         let el: HTMLElement = null;
 
-        // Read the icon
+        // Set the icon svg html
         let elIcon = document.createElement("div");
-        elIcon.innerHTML = link.LinkIcon;
+        elIcon.innerHTML = link.LinkIcon || DefaultIcon;
 
         // Ensure a svg icon exists
         let svgIcon = elIcon.querySelector("svg");
         if (svgIcon) {
             // Clear the container color
             svgIcon.removeAttribute("fill");
+
             // Clear the height
             svgIcon.removeAttribute("height");
+
             // Clear the width
             svgIcon.removeAttribute("width");
+
             // Hide icon from assistive technologies
             svgIcon.setAttribute("aria-hidden", "true");
+
             // Get the path elements
             svgIcon.querySelectorAll("path").forEach(el => {
                 // Clear the color
@@ -47,10 +54,10 @@ export class Link {
             // Create the element
             el = document.createElement("div");
             el.innerHTML = html;
-            
+
             // Add icon layout class or default to the square icon
             layout ? el.querySelector("a").classList.add(layout) : el.querySelector("a").classList.add("icon-sqre");
-            
+
             // See if a tooltip exists
             let elCol = el.querySelector(".col") as HTMLElement;
             if (link.LinkTooltip) {

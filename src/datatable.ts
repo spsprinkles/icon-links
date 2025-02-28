@@ -69,7 +69,7 @@ export class Datatable {
                 // Adjust the brand alignment
                 onRendered: (el) => {
                     el.querySelector("nav div.container-fluid").classList.add("ps-3");
-                    el.querySelector("nav div.container-fluid a.navbar-brand").classList.add("pe-none");
+                    el.querySelector("nav div.container-fluid .navbar-brand").classList.add("pe-none");
                     el.querySelectorAll(".mb-2, .mb-lg-0").forEach(el => {
                         el.classList.remove("mb-2");
                         el.classList.remove("mb-lg-0");
