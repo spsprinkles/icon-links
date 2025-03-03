@@ -9,13 +9,13 @@ const DefaultIcon = `<svg width="16" height="16" fill="none" viewBox="0 0 16 16"
  */
 export class Link {
     // Constructor
-    constructor(el: HTMLElement, link: ILinkItem, layout?: string) {
+    constructor(el: HTMLElement, link: ILinkItem, layout?: string, invertColors?: boolean) {
         // Render the link
-        this.render(el, link, layout);
+        this.render(el, link, layout, invertColors);
     }
 
     // Generates the base html
-    private generateElement(link: ILinkItem, layout?: string) {
+    private generateElement(link: ILinkItem, layout: string, invertColors: boolean) {
         let el: HTMLElement = null;
 
         // Set the icon svg html
@@ -56,7 +56,9 @@ export class Link {
             el.innerHTML = html;
 
             // Add icon layout class or default to the square icon
-            layout ? el.querySelector("a").classList.add(layout) : el.querySelector("a").classList.add("icon-sqre");
+            let elIconLink = el.querySelector("a");
+            layout ? elIconLink.classList.add(layout) : elIconLink.classList.add("icon-sqre");
+            invertColors ? elIconLink.classList.add("icon-light") : null;
 
             // See if a tooltip exists
             let elCol = el.querySelector(".col") as HTMLElement;
@@ -78,9 +80,9 @@ export class Link {
     }
 
     // Renders the link
-    private render(el: HTMLElement, link: ILinkItem, layout?: string) {
+    private render(el: HTMLElement, link: ILinkItem, layout: string, invertColors: boolean) {
         // Generate the element
-        let elLink = this.generateElement(link, layout);
+        let elLink = this.generateElement(link, layout, invertColors);
         if (elLink) {
             el.appendChild(elLink);
         }

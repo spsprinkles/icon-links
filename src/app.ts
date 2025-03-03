@@ -82,7 +82,7 @@ export class App {
             this._el.appendChild(elWP);
 
             // Render the dashboard
-            this.renderIcons(elWP, layout);
+            this.renderIcons(elWP, layout, invertColors);
 
             // Update the theme
             this.updateTheme();
@@ -93,17 +93,14 @@ export class App {
                 this.renderEdit();
             }
         }
-
-        // Update the theme
-        this.updateThemeColors(invertColors);
     }
 
     // Renders the icons
-    private renderIcons(el: HTMLElement, layout?: string) {
+    private renderIcons(el: HTMLElement, layout: string, invertColors: boolean) {
         // Parse the links
         for (let i = 0; i < this._ds.LinksList.Items.length; i++) {
             // Render the link
-            new Link(el, this._ds.LinksList.Items[i], layout);
+            new Link(el, this._ds.LinksList.Items[i], layout, invertColors);
         }
     }
 
@@ -158,21 +155,5 @@ export class App {
         root.style.setProperty('--sp-theme-darker', themeDarker);
         root.style.setProperty('--sp-theme-dark-alt', themeDarkAlt);
         root.style.setProperty('--sp-theme-primary', themePrimary);
-    }
-
-    // Updates the target color for the icons
-    private updateThemeColors(invertColors: boolean) {
-        let root = document.querySelector(':root') as HTMLElement;
-
-        // See if we are inverting the colors
-        if (invertColors) {
-            root.style.setProperty('--icon-background-color', 'var(--sp-neutral-light)');
-            root.style.setProperty('--icon-font-color', 'var(--sp-theme-primary)');
-            root.style.setProperty('--icon-hover-color', 'var(--sp-neutral-tertiary)');
-        } else {
-            root.style.setProperty('--icon-background-color', 'var(--sp-theme-primary)');
-            root.style.setProperty('--icon-font-color', 'var(--sp-primary-button-text)');
-            root.style.setProperty('--icon-hover-color', 'var(--sp-theme-dark)');
-        }
     }
 }
