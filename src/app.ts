@@ -166,13 +166,13 @@ export class App {
 
         // See if we are inverting the colors
         if (invertColors) {
-            root.style.setProperty('--icon-background-color', '--sp-neutral-light');
-            root.style.setProperty('--icon-font-color', '--sp-neutral-dark');
-            root.style.setProperty('--icon-hover-color', '--sp-neutral-tertiary');
+            root.style.setProperty('--icon-background-color', 'var(--sp-neutral-light)');
+            root.style.setProperty('--icon-font-color', 'var(--sp-theme-primary)');
+            root.style.setProperty('--icon-hover-color', 'var(--sp-neutral-tertiary)');
         } else {
-            root.style.setProperty('--icon-background-color', '--sp-theme-primary');
-            root.style.setProperty('--icon-font-color', '--sp-theme-dark');
-            root.style.setProperty('--icon-hover-color', '--sp-primary-button-text');
+            root.style.setProperty('--icon-background-color', 'var(--sp-theme-primary)');
+            root.style.setProperty('--icon-font-color', 'var(--sp-primary-button-text)');
+            root.style.setProperty('--icon-hover-color', 'var(--sp-theme-dark)');
         }
     }
 }
