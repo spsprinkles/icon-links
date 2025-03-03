@@ -37,13 +37,13 @@ export class App {
     }
 
     // Refreshes the application
-    refresh(displayMode: number, layout: string, justify: string) {
+    refresh(displayMode: number, layout: string, justify: string, invertColors: boolean) {
         // Render the component
-        this.render(displayMode, layout, justify);
+        this.render(displayMode, layout, justify, invertColors);
     }
 
     // Renders the component
-    render(displayMode: number, layout: string, justify: string) {
+    render(displayMode: number, layout: string, justify: string, invertColors: boolean) {
         // Log
         Log.Information("Loading the data for this application.");
 
@@ -56,7 +56,7 @@ export class App {
             Log.Information("Data loaded for the application.");
 
             // Render the component
-            this.render(displayMode, layout, justify);
+            this.render(displayMode, layout, justify, invertColors);
         });
 
         // See if we are editing the page & in classic mode
@@ -93,6 +93,9 @@ export class App {
                 this.renderEdit();
             }
         }
+
+        // Update the theme
+        this.updateThemeColors(invertColors);
     }
 
     // Renders the icons
@@ -155,5 +158,21 @@ export class App {
         root.style.setProperty('--sp-theme-darker', themeDarker);
         root.style.setProperty('--sp-theme-dark-alt', themeDarkAlt);
         root.style.setProperty('--sp-theme-primary', themePrimary);
+    }
+
+    // Updates the target color for the icons
+    private updateThemeColors(invertColors: boolean) {
+        let root = document.querySelector(':root') as HTMLElement;
+
+        // See if we are inverting the colors
+        if (invertColors) {
+            root.style.setProperty('--icon-background-color', '--sp-neutral-light');
+            root.style.setProperty('--icon-font-color', '--sp-neutral-dark');
+            root.style.setProperty('--icon-hover-color', '--sp-neutral-tertiary');
+        } else {
+            root.style.setProperty('--icon-background-color', '--sp-theme-primary');
+            root.style.setProperty('--icon-font-color', '--sp-theme-dark');
+            root.style.setProperty('--icon-hover-color', '--sp-primary-button-text');
+        }
     }
 }

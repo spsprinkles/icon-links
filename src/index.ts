@@ -17,6 +17,7 @@ interface IAppProps {
     context?: any;
     envType?: number;
     displayMode?: number;
+    invertColors?: boolean;
     layout?: string;
     log?: any;
     justify?: string;
@@ -67,7 +68,7 @@ const GlobalVariable = {
                 Log.Information("Creating the application.");
 
                 // Render the application
-                app.render(props.displayMode, props.layout, props.justify);
+                app.render(props.displayMode, props.layout, props.justify, props.invertColors);
             },
 
             // Error

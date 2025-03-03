@@ -1,10 +1,11 @@
 import { DisplayMode, Environment, Log, Version } from '@microsoft/sp-core-library';
-import { PropertyPaneButton, PropertyPaneChoiceGroup, IPropertyPaneConfiguration, PropertyPaneDropdown, PropertyPaneHorizontalRule, PropertyPaneLabel, PropertyPaneTextField } from '@microsoft/sp-property-pane';
+import { PropertyPaneButton, PropertyPaneChoiceGroup, IPropertyPaneConfiguration, PropertyPaneDropdown, PropertyPaneHorizontalRule, PropertyPaneLabel, PropertyPaneTextField, PropertyPaneToggle } from '@microsoft/sp-property-pane';
 import { BaseClientSideWebPart, WebPartContext } from '@microsoft/sp-webpart-base';
 import { IReadonlyTheme, ISemanticColors } from '@microsoft/sp-component-base';
 import * as strings from 'IconLinksWebPartStrings';
 
 export interface IIconLinksWebPartProps {
+  invertColors: boolean;
   justify: string;
   layout: string;
   listName: string;
@@ -25,6 +26,7 @@ interface IAppProps {
   context?: WebPartContext;
   envType?: number;
   displayMode?: DisplayMode;
+  invertColors?: boolean;
   layout?: string;
   log?: Log;
   justify?: string;
@@ -136,6 +138,12 @@ export default class IconLinksWebPart extends BaseClientSideWebPart<IIconLinksWe
                     { key: 'justify-content-around', text: 'Around' },
                     { key: 'justify-content-between', text: 'Between' }
                   ]
+                }),
+                PropertyPaneToggle('invertColors', {
+                  checked: this.properties.invertColors,
+                  label: "Invert Colors:",
+                  offText: "The background will be lighter, and icon/text will be darker.",
+                  onText: "The background will be darker, and the icon/text will be lighter."
                 }),
                 PropertyPaneTextField('webUrl', {
                   label: strings.WebUrlFieldLabel,
