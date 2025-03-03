@@ -79,14 +79,12 @@ module.exports = {
         //                    This rule should be suppressed only in very special cases such as JSON.stringify()
         //                    where the type really can be anything.  Even if the type is flexible, another type
         //                    may be more appropriate such as "unknown", "{}", or "Record<k,V>".
-        '@typescript-eslint/no-empty-function': 0,
         '@typescript-eslint/no-explicit-any': 0,
         // RATIONALE:         The #1 rule of promises is that every promise chain must be terminated by a catch()
         //                    handler.  Thus wherever a Promise arises, the code must either append a catch handler,
         //                    or else return the object to a caller (who assumes this responsibility).  Unterminated
         //                    promise chains are a serious issue.  Besides causing errors to be silently ignored,
         //                    they can also cause a NodeJS process to terminate unexpectedly.
-        '@typescript-eslint/no-extra-semi': 0,
         '@typescript-eslint/no-floating-promises': 2,
         // RATIONALE:         Catches a common coding mistake.
         '@typescript-eslint/no-for-in-array': 2,
@@ -120,7 +118,7 @@ module.exports = {
         //
         // STANDARDIZED BY:   @typescript-eslint\eslint-plugin\dist\configs\recommended.json
         // Set to 1 (warning) or 2 (error) to enable the rule
-        '@typescript-eslint/no-parameter-properties': 0,
+        '@typescript-eslint/parameter-properties': 0,
         // RATIONALE:         When left in shipping code, unused variables often indicate a mistake.  Dead code
         //                    may impact performance.
         //
@@ -236,7 +234,7 @@ module.exports = {
         //                    a variable.  Either it's part of an awkward expression like "(new Thing()).doSomething()",
         //                    or else implies that the constructor is doing nontrivial computations, which is often
         //                    a poor class design.
-        'no-new': 0,
+        'no-new': 1,
         // RATIONALE:         Obsolete language feature that is deprecated.
         'no-new-func': 2,
         // RATIONALE:         Obsolete language feature that is deprecated.

@@ -15,28 +15,28 @@ export interface IIconLinksWebPartProps {
 
 // App
 interface IApp {
-  refresh: (displayMode: number, layout: string, justify: string) => void;
+  refresh: (displayMode: number, layout: string, justify: string, invertColors: boolean) => void;
   showDatatable: () => void;
-  updateTheme: (currentTheme: Partial<ISemanticColors>) => void;
+  updateTheme: (currentTheme?: Partial<ISemanticColors>) => void;
 }
 
 // App Properties
 interface IAppProps {
   el: HTMLElement;
-  context?: WebPartContext;
-  envType?: number;
-  displayMode?: DisplayMode;
-  invertColors?: boolean;
-  layout?: string;
-  log?: Log;
-  justify?: string;
-  viewName?: string;
-  listName?: string;
-  sourceUrl?: string;
+  context: WebPartContext;
+  envType: number;
+  displayMode: DisplayMode;
+  invertColors: boolean;
+  layout: string;
+  log: Log;
+  justify: string;
+  viewName: string;
+  listName: string;
+  sourceUrl: string;
 }
 
 // Import the solution
-import "../../../../dist/icon-links.js";
+import "main-lib";
 declare const IconLinks: {
   description: string;
   init: (props: IAppProps) => IApp;
@@ -44,7 +44,7 @@ declare const IconLinks: {
 }
 
 export default class IconLinksWebPart extends BaseClientSideWebPart<IIconLinksWebPartProps> {
-  private _app: IApp = null;
+  private _app: IApp;
   private _currentTheme: IReadonlyTheme;
 
   public render(): void {
@@ -61,6 +61,7 @@ export default class IconLinksWebPart extends BaseClientSideWebPart<IIconLinksWe
       el: this.domElement,
       envType: Environment.type,
       displayMode: this.displayMode,
+      invertColors: this.properties.invertColors,
       justify: this.properties.justify,
       layout: this.properties.layout,
       listName: this.properties.listName,
@@ -72,7 +73,7 @@ export default class IconLinksWebPart extends BaseClientSideWebPart<IIconLinksWe
     // See if the app has been rendered
     if (this._app) {
       // Refresh the solution
-      this._app.refresh(appProps.displayMode, appProps.layout, appProps.justify);
+      this._app.refresh(appProps.displayMode, appProps.layout, appProps.justify, appProps.invertColors);
     } else {
       // Initialize the solution
       this._app = IconLinks.init(appProps);
@@ -142,8 +143,8 @@ export default class IconLinksWebPart extends BaseClientSideWebPart<IIconLinksWe
                 PropertyPaneToggle('invertColors', {
                   checked: this.properties.invertColors,
                   label: "Invert Colors:",
-                  offText: "The background will be lighter, and icon/text will be darker.",
-                  onText: "The background will be darker, and the icon/text will be lighter."
+                  offText: "The background will be darker, and the icon/text will be lighter.",
+                  onText: "The background will be lighter, and icon/text will be darker."
                 }),
                 PropertyPaneTextField('webUrl', {
                   label: strings.WebUrlFieldLabel,

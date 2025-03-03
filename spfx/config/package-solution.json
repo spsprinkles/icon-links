@@ -3,7 +3,7 @@
   "solution": {
     "name": "icon-links-client-side-solution",
     "id": "d27c672e-ea20-49c9-89b2-f371dae0c066",
-    "version": "0.0.9.1",
+    "version": "0.1.0.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,

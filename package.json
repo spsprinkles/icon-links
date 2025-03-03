@@ -1,6 +1,6 @@
 {
   "name": "icon-links",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "This is similar to Quick links but saves the data in a SharePoint list. You can use the links across multiple pages & sites without having to recreate them.",
   "main": "src/index.ts",
   "scripts": {
@@ -8,7 +8,7 @@
     "build": "webpack --mode=development",
     "prod": "webpack --mode=production",
     "spfx": "cd spfx && npm run package",
-    "serve": "npm run build && cd spfx && gulp serve --nobrowser",
+    "test": "npm run build && cd spfx && gulp serve --nobrowser",
     "increment-version": "node ./incrementVersion.js"
   },
   "repository": {
