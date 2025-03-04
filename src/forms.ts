@@ -75,6 +75,23 @@ export class Forms {
             }
         }
 
+        // Set the form rendered event to insert the clear link
+        props.onFormRendered = (form) => {
+            // Get the icon component
+            let ctrl = form.getControl("LinkIcon");
+
+            // Create a link to clear the icon
+            let elClear = document.createElement("a");
+            elClear.href = "#";
+            elClear.innerHTML = "Click here to clear the icon";
+            elClear.style.display = "block";
+            elClear.addEventListener("click", () => {
+                // Clear the textbox
+                ctrl.textbox.setValue("");
+            });
+            ctrl.el.parentElement.insertBefore(elClear, ctrl.el.nextElementSibling);
+        }
+
         // Return the properties
         return props;
     }
