@@ -24,6 +24,6 @@ const Strings = {
     ProjectName: "Icon Links",
     ProjectDescription: "This is similar to Quick links but saves the data in a SharePoint list. You can use the links across multiple pages & sites without having to recreate them.",
     SourceUrl: ContextInfo.webServerRelativeUrl,
-    Version: "0.1.1"
+    Version: "0.1.2"
 };
 export default Strings;

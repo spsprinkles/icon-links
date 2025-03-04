@@ -1,6 +1,6 @@
 {
   "name": "icon-links",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "This is similar to Quick links but saves the data in a SharePoint list. You can use the links across multiple pages & sites without having to recreate them.",
   "main": "src/index.ts",
   "scripts": {
