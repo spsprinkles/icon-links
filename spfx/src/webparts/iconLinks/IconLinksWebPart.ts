@@ -17,7 +17,7 @@ export interface IIconLinksWebPartProps {
 interface IApp {
   refresh: (displayMode: number, layout: string, justify: string, invertColors: boolean) => void;
   showDatatable: () => void;
-  updateTheme: (currentTheme?: Partial<ISemanticColors>) => void;
+  updateTheme: (currentTheme?: Partial<ISemanticColors>, invertColors?: boolean) => void;
 }
 
 // App Properties
@@ -81,7 +81,7 @@ export default class IconLinksWebPart extends BaseClientSideWebPart<IIconLinksWe
       // See if the current theme exists
       if (this._currentTheme) {
         // Update the theme
-        this._app.updateTheme(this._currentTheme.semanticColors);
+        this._app.updateTheme(this._currentTheme.semanticColors, this.properties.invertColors);
       }
     }
   }
@@ -97,7 +97,7 @@ export default class IconLinksWebPart extends BaseClientSideWebPart<IIconLinksWe
     // See if the app exists
     if (this._app) {
       // Update the theme
-      this._app.updateTheme(currentTheme.semanticColors);
+      this._app.updateTheme(currentTheme.semanticColors, this.properties.invertColors);
     }
   }
 

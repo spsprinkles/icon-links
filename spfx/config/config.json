@@ -14,7 +14,7 @@
   "externals": {
     "main-lib": {
       "globalName": "main-lib",
-      "path": "../dist/icon-links.min.js"
+      "path": "../dist/icon-links.js"
     }
   },
   "localizedResources": {

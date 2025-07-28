@@ -68,8 +68,7 @@ export class Link {
                     content: link.LinkTooltip,
                     target: elCol,
                     options: {
-                        offset: [0, 5],
-                        theme: "sharepoint"
+                        offset: [0, 5]
                     }
                 })
             }

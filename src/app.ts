@@ -1,4 +1,4 @@
-import { Components, ContextInfo, Helper, SPTypes } from "gd-sprest-bs";
+import { Components, ContextInfo, Helper, SPTypes, ThemeManager } from "gd-sprest-bs";
 import { infoSquare } from "gd-sprest-bs/build/icons/svgs/infoSquare";
 import { Datatable } from "./datatable";
 import { DataSource } from "./ds";
@@ -85,7 +85,7 @@ export class App {
             this.renderIcons(elWP, layout, invertColors);
 
             // Update the theme
-            this.updateTheme();
+            this.updateTheme(null, invertColors);
         } else {
             // See if we are not in classic mode
             if (!Strings.IsClassic) {
@@ -131,29 +131,46 @@ export class App {
     }
 
     // Updates the styling, based on the theme
-    updateTheme(themeInfo?: any) {
-        // Log
-        Log.Information("Updating the theme.");
+    private _currTheme = null;
+    updateTheme(themeInfo?: any, invertColors?: boolean) {
+        // Set the current theme
+        this._currTheme = themeInfo || this._currTheme;
+        if (this._currTheme) {
+            // Log
+            Log.Information("Updating the theme.");
 
-        // Get the theme colors
-        let neutralDark = (themeInfo || ContextInfo.theme).neutralDark || this._ds.getThemeColor("StrongBodyText");
-        let neutralLight = (themeInfo || ContextInfo.theme).neutralLight || this._ds.getThemeColor("DisabledLines");
-        let neutralTertiary = (themeInfo || ContextInfo.theme).neutralTertiary || this._ds.getThemeColor("ButtonBorder");
-        let primaryButtonText = (themeInfo || ContextInfo.theme).primaryButtonText || this._ds.getThemeColor("TileText");
-        let themeDark = (themeInfo || ContextInfo.theme).themeDark || this._ds.getThemeColor("EmphasisBorder");
-        let themeDarker = (themeInfo || ContextInfo.theme).themeDarker || this._ds.getThemeColor("EmphasisHoverBorder");
-        let themeDarkAlt = (themeInfo || ContextInfo.theme).themeDarkAlt || this._ds.getThemeColor("HoverBackground");
-        let themePrimary = (themeInfo || ContextInfo.theme).themePrimary || this._ds.getThemeColor("AccentText");
+            // Get the style element
+            let elStyle = this._el.querySelector("style");
+            if (elStyle == null) {
+                elStyle = document.createElement("style");
+                this._el.appendChild(elStyle);
+            }
 
-        // Set the CSS properties to the theme colors
-        let root = document.querySelector(':root') as HTMLElement;
-        root.style.setProperty('--sp-neutral-dark', neutralDark);
-        root.style.setProperty('--sp-neutral-light', neutralLight);
-        root.style.setProperty('--sp-neutral-tertiary', neutralTertiary);
-        root.style.setProperty('--sp-primary-button-text', primaryButtonText);
-        root.style.setProperty('--sp-theme-dark', themeDark);
-        root.style.setProperty('--sp-theme-darker', themeDarker);
-        root.style.setProperty('--sp-theme-dark-alt', themeDarkAlt);
-        root.style.setProperty('--sp-theme-primary', themePrimary);
+            // Get the id of the webpart
+            let wpid = this._el.getAttribute("data-sp-feature-instance-id");
+
+            // Set the custom styling
+            elStyle.innerHTML = `
+                .icon-links[data-sp-feature-instance-id='${wpid}'] {
+                    background-color: ${this._currTheme[invertColors ? "bodyBackground" : "bodyBackground"]};
+                }
+                .icon-links[data-sp-feature-instance-id='${wpid}'] .col > a,
+                .icon-links[data-sp-feature-instance-id='${wpid}'] .col > a .icon-text,
+                .icon-links[data-sp-feature-instance-id='${wpid}'] .col > a:visited,
+                .icon-links[data-sp-feature-instance-id='${wpid}'] .col > a:visited .icon-text {
+                    background-color: ${this._currTheme[invertColors ? "primaryButtonText" : "primaryButtonBackground"]};
+                    color: ${this._currTheme[invertColors ? "primaryButtonBackground" : "primaryButtonText"]};
+                }
+                .icon-links[data-sp-feature-instance-id='${wpid}'] .col > a:hover,
+                .icon-links[data-sp-feature-instance-id='${wpid}'] .col > a:hover .icon-text {
+                    background-color: ${this._currTheme[invertColors ? "primaryButtonTextHovered" : "primaryButtonBackgroundHovered"]};
+                    color: ${this._currTheme[invertColors ? "primaryButtonBackgroundHovered" : "primaryButtonTextHovered"]};
+                }
+                .icon-links[data-sp-feature-instance-id='${wpid}'] .icon-rect svg path,
+                .icon-links[data-sp-feature-instance-id='${wpid}'] .icon-sqre svg path {
+                    fill: ${this._currTheme[invertColors ? "primaryButtonBackground" : "primaryButtonText"]};
+                }
+            `;
+        }
     }
 }
