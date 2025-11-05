@@ -5,23 +5,27 @@ import { IReadonlyTheme, ISemanticColors } from '@microsoft/sp-component-base';
 import * as strings from 'IconLinksWebPartStrings';
 
 export interface IIconLinksWebPartProps {
+  bgColor: string;
   invertColors: boolean;
   justify: string;
   layout: string;
   listName: string;
+  tileBgColor: string;
+  tileHoverColor: string;
   viewName: string;
   webUrl: string;
 }
 
 // App
 interface IApp {
-  refresh: (displayMode: number, layout: string, justify: string, invertColors: boolean) => void;
+  refresh: (props: IAppProps) => void;
   showDatatable: () => void;
   updateTheme: (currentTheme?: Partial<ISemanticColors>, invertColors?: boolean) => void;
 }
 
 // App Properties
 interface IAppProps {
+  bgColor: string;
   el: HTMLElement;
   context: WebPartContext;
   envType: number;
@@ -30,6 +34,8 @@ interface IAppProps {
   layout: string;
   log: Log;
   justify: string;
+  tileBgColor: string;
+  tileHoverColor: string;
   viewName: string;
   listName: string;
   sourceUrl: string;
@@ -57,6 +63,7 @@ export default class IconLinksWebPart extends BaseClientSideWebPart<IIconLinksWe
 
     // Set the app props
     const appProps: IAppProps = {
+      bgColor: this.properties.bgColor,
       context: this.context,
       el: this.domElement,
       envType: Environment.type,
@@ -66,6 +73,8 @@ export default class IconLinksWebPart extends BaseClientSideWebPart<IIconLinksWe
       layout: this.properties.layout,
       listName: this.properties.listName,
       log: Log,
+      tileBgColor: this.properties.tileBgColor,
+      tileHoverColor: this.properties.tileHoverColor,
       viewName: this.properties.viewName,
       sourceUrl: this.properties.webUrl
     };
@@ -73,7 +82,7 @@ export default class IconLinksWebPart extends BaseClientSideWebPart<IIconLinksWe
     // See if the app has been rendered
     if (this._app) {
       // Refresh the solution
-      this._app.refresh(appProps.displayMode, appProps.layout, appProps.justify, appProps.invertColors);
+      this._app.refresh(appProps);
     } else {
       // Initialize the solution
       this._app = IconLinks.init(appProps);
@@ -145,6 +154,18 @@ export default class IconLinksWebPart extends BaseClientSideWebPart<IIconLinksWe
                   label: "Invert Colors:",
                   offText: "The background will be darker, and the icon/text will be lighter.",
                   onText: "The background will be lighter, and icon/text will be darker."
+                }),
+                PropertyPaneTextField('bgColor', {
+                  label: "Background Color",
+                  description: "Overrides the theme and sets the webpart's background color."
+                }),
+                PropertyPaneTextField('tileBgColor', {
+                  label: "Tile Background Color",
+                  description: "Overrides the theme and sets the tile's background color."
+                }),
+                PropertyPaneTextField('tileHoverColor', {
+                  label: "Tile Hover Color",
+                  description: "Overrides the theme and sets the tile's text/icon color."
                 }),
                 PropertyPaneTextField('webUrl', {
                   label: strings.WebUrlFieldLabel,
