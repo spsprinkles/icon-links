@@ -1,7 +1,7 @@
 import { LoadingDialog } from "dattatable";
 import { Components, ContextInfo } from "gd-sprest-bs";
 import { infoSquare } from "gd-sprest-bs/build/icons/svgs/infoSquare";
-import { App } from "./app";
+import { App, IAppProps } from "./app";
 import { Configuration } from "./cfg";
 import { DataSource } from "./ds";
 import { Log } from "./log";
@@ -10,21 +10,6 @@ import Strings, { setContext } from "./strings";
 
 // Styling
 import "./styles.scss";
-
-// App Properties
-interface IAppProps {
-    el: HTMLElement;
-    context?: any;
-    envType?: number;
-    displayMode?: number;
-    invertColors?: boolean;
-    layout?: string;
-    log?: any;
-    justify?: string;
-    viewName?: string;
-    listName?: string;
-    sourceUrl?: string;
-}
 
 // Create the global variable for this solution
 const GlobalVariable = {
@@ -58,7 +43,7 @@ const GlobalVariable = {
 
         // Create the application
         let ds = new DataSource();
-        let app = new App(props.el, ds);
+        let app = new App(props, ds);
 
         // Initialize the data source
         ds.init(props.viewName).then(
@@ -141,5 +126,5 @@ window[Strings.GlobalVariable] = GlobalVariable;
 let elApp = document.querySelector("#" + Strings.AppElementId) as HTMLElement;
 if (elApp) {
     // Render the application
-    GlobalVariable.init({ el: elApp });
+    GlobalVariable.init({ el: elApp } as any);
 }

@@ -6,19 +6,39 @@ import { Link } from "./link";
 import { Log } from "./log";
 import Strings from "./strings";
 
+// App Properties
+export interface IAppProps {
+    bgColor: string;
+    context?: any;
+    displayMode?: number;
+    el: HTMLElement;
+    envType?: number;
+    invertColors?: boolean;
+    justify?: string;
+    layout?: string;
+    listName?: string;
+    log?: any;
+    sourceUrl?: string;
+    tileBgColor: string;
+    tileHoverColor: string;
+    viewName?: string;
+}
+
 /**
  * Main Application
  */
 export class App {
+    private _appProps: IAppProps = null;
     private _ds: DataSource = null;
     private _dt: Datatable = null;
     private _el: HTMLElement = null;
 
     // Constructor
-    constructor(el: HTMLElement, ds: DataSource) {
+    constructor(appProps: IAppProps, ds: DataSource) {
         // Save the properties
+        this._appProps = appProps;
         this._ds = ds;
-        this._el = el;
+        this._el = appProps.el;
 
         // Set the class name
         this._el.classList.add("icon-links");
@@ -37,9 +57,12 @@ export class App {
     }
 
     // Refreshes the application
-    refresh(displayMode: number, layout: string, justify: string, invertColors: boolean) {
+    refresh(props: IAppProps) {
+        // Update the app props
+        this._appProps = props;
+
         // Render the component
-        this.render(displayMode, layout, justify, invertColors);
+        this.render(props.displayMode, props.layout, props.justify, props.invertColors);
     }
 
     // Renders the component
@@ -148,6 +171,17 @@ export class App {
 
             // Get the id of the webpart
             let wpid = this._el.getAttribute("data-sp-feature-instance-id");
+
+            // See if we are overriding the theme colors
+            if (this._appProps.bgColor) {
+                this._currTheme["bodyBackground"] = this._appProps.bgColor;
+            }
+            if (this._appProps.tileBgColor) {
+                this._currTheme[invertColors ? "primaryButtonText" : "primaryButtonBackground"] = this._appProps.tileBgColor;
+            }
+            if (this._appProps.tileHoverColor) {
+                this._currTheme[invertColors ? "primaryButtonBackgroundHovered" : "primaryButtonTextHovered"] = this._appProps.tileHoverColor;
+            }
 
             // Set the custom styling
             elStyle.innerHTML = `
